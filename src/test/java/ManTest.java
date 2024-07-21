@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
 
 public class ManTest {
     private Man man;
@@ -10,37 +13,37 @@ public class ManTest {
         man = new Man("John", "Doe", 30);
     }
 
-    @Test
-    public void testGetFirstName() {
-        assertEquals("John", man.getFirstName());
+    static Stream<String> firstNameProvider() {
+        return Stream.of("John", "Mike", "Bob");
     }
 
-    @Test
-    public void testSetFirstName() {
-        man.setFirstName("Mike");
-        assertEquals("Mike", man.getFirstName());
+    static Stream<String> lastNameProvider() {
+        return Stream.of("Doe", "Smith", "Johnson");
     }
 
-    @Test
-    public void testGetLastName() {
-        assertEquals("Doe", man.getLastName());
+    static Stream<Integer> ageProvider() {
+        return Stream.of(30, 40, 66);
     }
 
-    @Test
-    public void testSetLastName() {
-        man.setLastName("Smith");
-        assertEquals("Smith", man.getLastName());
+    @ParameterizedTest
+    @MethodSource("firstNameProvider")
+    public void testSetFirstName(String firstName) {
+        man.setFirstName(firstName);
+        assertEquals(firstName, man.getFirstName());
     }
 
-    @Test
-    public void testGetAge() {
-        assertEquals(30, man.getAge());
+    @ParameterizedTest
+    @MethodSource("lastNameProvider")
+    public void testSetLastName(String lastName) {
+        man.setLastName(lastName);
+        assertEquals(lastName, man.getLastName());
     }
 
-    @Test
-    public void testSetAge() {
-        man.setAge(40);
-        assertEquals(40, man.getAge());
+    @ParameterizedTest
+    @MethodSource("ageProvider")
+    public void testSetAge(int age) {
+        man.setAge(age);
+        assertEquals(age, man.getAge());
     }
 
     @Test
@@ -64,3 +67,4 @@ public class ManTest {
         assertNull(man.partner);
     }
 }
+

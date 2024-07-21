@@ -1,5 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WomanTest {
@@ -10,37 +14,37 @@ public class WomanTest {
         woman = new Woman("Jane", "Doe", 30);
     }
 
-    @Test
-    public void testGetFirstName() {
-        assertEquals("Jane", woman.getFirstName());
+    static Stream<String> firstNameProvider() {
+        return Stream.of("Jane", "Anna", "Emma");
     }
 
-    @Test
-    public void testSetFirstName() {
-        woman.setFirstName("Anna");
-        assertEquals("Anna", woman.getFirstName());
+    static Stream<String> lastNameProvider() {
+        return Stream.of("Doe", "Smith", "Johnson");
     }
 
-    @Test
-    public void testGetLastName() {
-        assertEquals("Doe", woman.getLastName());
+    static Stream<Integer> ageProvider() {
+        return Stream.of(30, 40, 61);
     }
 
-    @Test
-    public void testSetLastName() {
-        woman.setLastName("Smith");
-        assertEquals("Smith", woman.getLastName());
+    @ParameterizedTest
+    @MethodSource("firstNameProvider")
+    public void testSetFirstName(String firstName) {
+        woman.setFirstName(firstName);
+        assertEquals(firstName, woman.getFirstName());
     }
 
-    @Test
-    public void testGetAge() {
-        assertEquals(30, woman.getAge());
+    @ParameterizedTest
+    @MethodSource("lastNameProvider")
+    public void testSetLastName(String lastName) {
+        woman.setLastName(lastName);
+        assertEquals(lastName, woman.getLastName());
     }
 
-    @Test
-    public void testSetAge() {
-        woman.setAge(40);
-        assertEquals(40, woman.getAge());
+    @ParameterizedTest
+    @MethodSource("ageProvider")
+    public void testSetAge(int age) {
+        woman.setAge(age);
+        assertEquals(age, woman.getAge());
     }
 
     @Test
